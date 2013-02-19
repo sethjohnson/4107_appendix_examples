@@ -1,0 +1,126 @@
+Running and configuring Visual Studio 2010:
+-------------------------------------------
+
+These instructions have only been tested with Visual Studio 2010. Other versions
+may work with the exact same steps, but will likely require adjustments. Visual
+Studio 2010 is the only development environment we support, and expect all 
+turned in code to build and run correctly with VS 2010.
+
+The Windows machines in Lind 150 have VS 2010 installed, and have the proper
+hardware to run these examples and homework. If you do not have a capable 
+machine, it recommended you use this lab.
+
+
+1. Creating a new project
+  A. Click "File" -> "New" -> "Project"  and select the empty C++ project template.
+  B. Enter a useful name (in this case, example_A2)
+  C. This will also create a "solution" with the same name. VS 2010 supports
+     multiple projects within a single solution. We will only have one project
+     per solution.
+
+2. Adding the example .h, .cpp, and .glsl files
+  A. Navigate to the project directory in explorer for the project you just 
+     created. The outer directory ("example_A2") is the solution directory and
+     the inner "example_A2" directory is the project folder.
+  B. Copy the following files into the project folder:
+      Angel.h
+      CheckError.h
+      mat.h
+      vec.h
+      InitShader.cpp
+      append_example2.cpp
+      vshader_a2.glsl
+      fshader_a2.glsl
+  C. Go back to VS 2010, and click the "Show All Files" option at the top of the
+     solution explorer tab. You should see the above files listed with red 
+     badges saying they're not included in the project (meaning they're ignored
+     by the build).
+  D. Select all of those files, right-click them, and click "Include In Project"
+  E. If you click "Show All Files" again, you should see that VS 2010
+     has filtered those files into source code, headers, and the extra GLSL
+     files.
+     
+3. Locating the GLUT and GLEW headers
+  A. If you open any of the .h or .cpp files, you should see errors complaining
+     that it can't find certain header files or function declarations. This is
+     because we need to configure the project to find GLUT and GLEW still.
+  B. Click "Project" -> "Properties" or "Project" -> "example_2A properties" to
+     open the project's property control panel.
+  C. In the tree menu on the left, click the "C++/General" option.
+  D. In the top left, click the configurations drop-down and make sure that 
+     "All Configurations" is checked.
+  E. With "C++/General" still selected, in the
+     "Additional Include Directories" field, click the drop-down arrow and select the "Edit..." option
+    i. Click the "New Line" icon
+    ii. Click on the "..." button that appears on the right of the blank 
+        line that appears after doing step i.
+    iii. Navigate and select the "{PATH_TO_THIS_README}/include" directory
+         (you do not want to select the GL/ folder because the headers have
+          that in their path already).
+    iv. Click apply
+  E. If access the .h/.cpp files again, you should see the previous errors go
+     away.
+    
+4. Linking to GLUT and GLEW headers
+  A. If you were build (F7) right now, you will get many errors saying that
+     certain symbols are not defined. This is because we need to tell VS2010
+     where to find the libraries for GLUT and GLEW in addition to their headers. Other errors you might see are that it cannot find "freeglut.lib" or "glew32.lib".
+  B. Open the project properties again (if you closed them) and make sure that
+     "All Configurations" is still selected.
+  C. In the tree menu, select "VC++ Directories" and select the "Edit..." drop-down option
+     for the "Library Directories" field.
+    i. Just like in step 3, add a new folder and select 
+       "{PATH_TO_THIS_README}/lib".
+  D. Now select "Linker/Input" in the tree menu and edit the "Additional 
+     Dependencies" field.
+    i. In the multi-line text box, enter the following text:
+       glew32.lib
+       freeglut.lib
+    ii. They .lib files must be listed in this order so that glew32.lib is
+        found first, and they must be on separate lines (the preceding white
+        space does not matter, though).
+  E. At this point, building (F7) should succeed and produce an executable in
+     the solution's Debug directory (one level up from the project directory).
+  F. You can run the executable by pressing F5 when in VS 2010. At this point,
+     you'll see the app start up and then complain about missing DLLs.
+     
+5. Adding GLUT and GLEW to the runtime
+  A. Copy "{PATH_TO_THIS_README}/bin/glew32.dll" and
+     "{PATH_TO_THIS_README}/bin/freeglut.dll" into the Debug directory that 
+     contains the built executable.
+  B. Running the executable from VS 2010 should now function correctly.
+  
+  
+Other examples
+--------------
+
+You can create and run the second example by following the same steps as above
+to create a new project, and just replace the names for example_2A with
+example_4A.
+
+Creating a project for your 2nd assignment
+------------------------------------------
+
+When working on your 2nd assignment, you will want to use both GLUT and GLEW
+so you should configure your homework's project to find the headers and
+libraries just like you did for the examples.
+
+If you want to use the convenience functions provided by the example code,
+you may copy the Angle.h (etc.) files into your homework project, but make sure
+you give credit where credit is due.
+
+Building and running the examples and homework on other OSes
+------------------------------------------------------------
+
+Other build environments are not supported for this class.  If you prefer to 
+development your code on a Linux or Mac, or in a different IDE than VS 2010
+you may do so, but it is up to you to figure out how to include and link against
+GLUT and GLEW as required.
+
+GLEW is only required for Windows machines, and Mac comes with GLUT already
+installed but it is most likely older than the version provided by freeglut.
+
+Additionally, if you complete your assignment on another OS, you must still
+prepare and submit a VS 2010 project that builds and runs the assignment 
+application.  It should be relatively straight forward to follow the above 
+directions after you've written your code to put together a submittable project.
